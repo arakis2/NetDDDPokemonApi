@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using NetDDDPokemonApi.Domain.Interfaces;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using NetDDDPokemonApi.Queries;
 
 namespace NetDDDPokemonApi.Controllers
 {
@@ -7,17 +8,18 @@ namespace NetDDDPokemonApi.Controllers
     [Route("[controller]")]
     public class PokemonController : Controller
     {
-        private readonly IPokemonService pokemonService;
+        private readonly IMediator mediator;
 
-        public PokemonController(IPokemonService pokemonService)
+        public PokemonController(IMediator mediator)
         {
-            this.pokemonService = pokemonService;
+            this.mediator = mediator;
         }
 
         [HttpGet("/pokemons")]
         public async Task<ActionResult> GetPokemonsAsync()
         {
-            var pokemons = await pokemonService.GetPokemonListAsync();
+            var query = new GetPokemonsQuery();
+            var pokemons = await mediator.Send(query);
 
             return Ok(pokemons);
         }

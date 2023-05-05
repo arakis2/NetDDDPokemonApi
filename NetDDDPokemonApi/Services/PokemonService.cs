@@ -1,7 +1,6 @@
 ﻿using NetDDDPokemonApi.Domain.Interfaces;
 using NetDDDPokemonApi.Domain.models;
 using NetDDDPokemonApi.Infrastructure.Interfaces;
-using NetDDDPokemonApi.Tools;
 
 namespace NetDDDPokemonApi.Services
 {
@@ -14,7 +13,7 @@ namespace NetDDDPokemonApi.Services
             this.pokemonDbService = pokemonDbService;
         }
 
-        public async Task<List<PokemonModel>> GetPokemonListAsync() => (await pokemonDbService.GetPokemonsAsync()).ToPokemonModels();
+        public async Task<List<PokemonModel>> GetPokemonListAsync() => await pokemonDbService.GetPokemonsAsync();
 
     }
 }

@@ -14,6 +14,7 @@ namespace NetDDDPokemonApi.Configuration
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IPokemonService, PokemonService>();
+            services.AddScoped<ITypeService, TypeService>();
 
             return services;
         }

@@ -24,4 +24,10 @@
     <ProjectReference Include="..\NetDDDPokemonApi.Infrastructure\NetDDDPokemonApi.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="data.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

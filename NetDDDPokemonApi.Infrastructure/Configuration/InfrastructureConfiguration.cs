@@ -24,6 +24,7 @@ namespace NetDDDPokemonApi.Infrastructure.configuration
         {
             services.AddScoped<ITypeDbService, TypeDbService>();
             services.AddScoped<IPokemonDbService, PokemonDbService>();
+            services.AddScoped<IUserDbService, UserDbService>();
 
             return services;
         }

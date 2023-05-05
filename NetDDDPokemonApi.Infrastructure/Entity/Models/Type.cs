@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace NetDDDPokemonApi.Infrastructure.Entity.Models
 {
@@ -11,5 +7,7 @@ namespace NetDDDPokemonApi.Infrastructure.Entity.Models
     public class Type : DbBase
     {
         public string? Name { get; set; }
+
+        public IEnumerable<Pokemon> Pokemons { get; set; } = Enumerable.Empty<Pokemon>();
     }
 }

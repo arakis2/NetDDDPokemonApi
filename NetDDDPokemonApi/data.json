@@ -1,0 +1,148 @@
+{
+  "pokemons": [
+    {
+      "name": "Bulbizarre",
+      "hp": "250",
+      "cp": 5,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
+      "types": [
+        "Plante",
+        "Poison"
+      ]
+    },
+    {
+      "name": "Salamèche",
+      "hp": 28,
+      "cp": 6,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png",
+      "types": [
+        "Feu"
+      ]
+    },
+    {
+      "name": "Carapuce",
+      "hp": 21,
+      "cp": 4,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png",
+      "types": [
+        "Eau"
+      ]
+    },
+    {
+      "name": "Aspicot",
+      "hp": 16,
+      "cp": 2,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/013.png",
+      "types": [
+        "Insecte",
+        "Poison"
+      ]
+    },
+    {
+      "name": "Roucool",
+      "hp": 30,
+      "cp": 7,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/016.png",
+      "types": [
+        "Normal",
+        "Vol"
+      ]
+    },
+    {
+      "name": "Rattata",
+      "hp": 18,
+      "cp": 6,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/019.png",
+      "types": [
+        "Normal"
+      ]
+    },
+    {
+      "name": "Piafabec",
+      "hp": 14,
+      "cp": 5,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/021.png",
+      "types": [
+        "Normal",
+        "Vol"
+      ]
+    },
+    {
+      "name": "Abo",
+      "hp": 16,
+      "cp": 4,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/023.png",
+      "types": [
+        "Poison"
+      ]
+    },
+    {
+      "name": "Sabelette",
+      "hp": 19,
+      "cp": 3,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/027.png",
+      "types": [
+        "Normal"
+      ]
+    },
+    {
+      "name": "Mélofée",
+      "hp": 25,
+      "cp": 5,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/035.png",
+      "types": [
+        "Fée"
+      ]
+    },
+    {
+      "name": "Groupix",
+      "hp": 17,
+      "cp": 8,
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/037.png",
+      "types": [
+        "Feu"
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "Plante"
+    },
+    {
+      "name": "Feu"
+    },
+    {
+      "name": "Eau"
+    },
+    {
+      "name": "Insecte"
+    },
+    {
+      "name": "Normal"
+    },
+    {
+      "name": "Electrik"
+    },
+    {
+      "name": "Poison"
+    },
+    {
+      "name": "Fée"
+    },
+    {
+      "name": "Vol"
+    },
+    {
+      "name": "Combat"
+    },
+    {
+      "name": "Psy"
+    }
+  ],
+  "users": [
+    {
+      "username": "pikachu",
+      "password": "MqZWh92iTBvB+dncOBkeyA=="
+    }
+  ]
+}

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NetDDDPokemonApi.Infrastructure.Migrations
 {
     [DbContext(typeof(PokemonDbContext))]
-    [Migration("20230504154042_Initial")]
+    [Migration("20230505115909_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
 
             modelBuilder.Entity("NetDDDPokemonApi.Infrastructure.Entity.Models.Pokemon", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<string>("Cp")
                         .HasColumnType("text");
@@ -61,20 +61,17 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
 
             modelBuilder.Entity("NetDDDPokemonApi.Infrastructure.Entity.Models.Type", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
-
-                    b.Property<long?>("PokemonId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("timestamp with time zone");
@@ -84,18 +81,16 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("PokemonId");
-
                     b.ToTable("Types");
                 });
 
             modelBuilder.Entity("NetDDDPokemonApi.Infrastructure.Entity.Models.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long?>("Id"));
 
                     b.Property<DateTime?>("Created")
                         .HasColumnType("timestamp with time zone");
@@ -117,16 +112,34 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("NetDDDPokemonApi.Infrastructure.Entity.Models.Type", b =>
+            modelBuilder.Entity("PokemonType", b =>
                 {
-                    b.HasOne("NetDDDPokemonApi.Infrastructure.Entity.Models.Pokemon", null)
-                        .WithMany("Types")
-                        .HasForeignKey("PokemonId");
+                    b.Property<long>("PokemonsId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TypesId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("PokemonsId", "TypesId");
+
+                    b.HasIndex("TypesId");
+
+                    b.ToTable("PokemonType");
                 });
 
-            modelBuilder.Entity("NetDDDPokemonApi.Infrastructure.Entity.Models.Pokemon", b =>
+            modelBuilder.Entity("PokemonType", b =>
                 {
-                    b.Navigation("Types");
+                    b.HasOne("NetDDDPokemonApi.Infrastructure.Entity.Models.Pokemon", null)
+                        .WithMany()
+                        .HasForeignKey("PokemonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NetDDDPokemonApi.Infrastructure.Entity.Models.Type", null)
+                        .WithMany()
+                        .HasForeignKey("TypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

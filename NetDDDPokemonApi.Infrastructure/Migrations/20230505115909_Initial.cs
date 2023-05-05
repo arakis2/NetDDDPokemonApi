@@ -31,6 +31,21 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Types",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Types", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -47,24 +62,27 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Types",
+                name: "PokemonType",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    PokemonId = table.Column<long>(type: "bigint", nullable: true),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    PokemonsId = table.Column<long>(type: "bigint", nullable: false),
+                    TypesId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Types", x => x.Id);
+                    table.PrimaryKey("PK_PokemonType", x => new { x.PokemonsId, x.TypesId });
                     table.ForeignKey(
-                        name: "FK_Types_Pokemons_PokemonId",
-                        column: x => x.PokemonId,
+                        name: "FK_PokemonType_Pokemons_PokemonsId",
+                        column: x => x.PokemonsId,
                         principalTable: "Pokemons",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PokemonType_Types_TypesId",
+                        column: x => x.TypesId,
+                        principalTable: "Types",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -74,15 +92,15 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PokemonType_TypesId",
+                table: "PokemonType",
+                column: "TypesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Types_Name",
                 table: "Types",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Types_PokemonId",
-                table: "Types",
-                column: "PokemonId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
@@ -95,13 +113,16 @@ namespace NetDDDPokemonApi.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Types");
+                name: "PokemonType");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Pokemons");
+
+            migrationBuilder.DropTable(
+                name: "Types");
         }
     }
 }

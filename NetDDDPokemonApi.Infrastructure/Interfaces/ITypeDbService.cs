@@ -1,15 +1,17 @@
-﻿using Type = NetDDDPokemonApi.Infrastructure.Entity.Models.Type;
+﻿using NetDDDPokemonApi.Domain.models;
+
 
 namespace NetDDDPokemonApi.Infrastructure.Interfaces
 {
     public interface ITypeDbService
     {
-        Task<List<Type>> GetTypesAsync();
-        Task<List<Type>> GetTypesByNameAsync(string name);
-        Task<Type?> GetTypeByIdAsync(long id);
+        Task<List<TypeModel>> GetTypesAsync();
+        Task<TypeModel?> GetTypeByNameAsync(string name);
+        Task<TypeModel?> GetTypeByIdAsync(long id);
         Task<bool> IsTypeNameExistsAsync(string name);
-        Task<Type> AddTypeAsync(Type type);
-        Task<Type> UpdateTypeAsync(Type type);
-        Task DeleteTypeAsync(Type type);
+        Task<TypeModel?> AddTypeAsync(TypeModel? type);
+        Task<TypeModel?> UpdateTypeAsync(TypeModel? type);
+        Task DeleteTypeAsync(TypeModel? type);
+        Task TruncateTableAsync();
     }
 }

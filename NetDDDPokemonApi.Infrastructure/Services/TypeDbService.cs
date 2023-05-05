@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NetDDDPokemonApi.Domain.models;
+using NetDDDPokemonApi.Infrastructure.Converters;
 using NetDDDPokemonApi.Infrastructure.Entity;
 using NetDDDPokemonApi.Infrastructure.Interfaces;
 using Type = NetDDDPokemonApi.Infrastructure.Entity.Models.Type;
@@ -11,27 +13,33 @@ namespace NetDDDPokemonApi.Infrastructure.Services
         public TypeDbService(PokemonDbContext dbContext)
             :base(dbContext) { }
         
-        public async Task<List<Type>> GetTypesAsync()
+        public async Task<List<TypeModel>> GetTypesAsync()
         {
-            return await dbContext.Set<Type>()
+            var types = await dbContext.Set<Type>()
                 .AsNoTracking()
                 .ToListAsync();
+
+            return types.ToModels();
         }
 
-        public async Task<List<Type>> GetTypesByNameAsync(string name)
+        public async Task<TypeModel?> GetTypeByNameAsync(string name)
         {
-            return await dbContext.Set<Type>()
+            var type = await dbContext.Set<Type>()
                 .AsNoTracking()
                 .Where(x => x.Name == name)
-                .ToListAsync();
+                .SingleOrDefaultAsync();
+
+            return type.ToModel();
         }
 
-        public async Task<Type?> GetTypeByIdAsync(long id)
+        public async Task<TypeModel?> GetTypeByIdAsync(long id)
         {
-            return await dbContext.Set<Type>()
+            var type = await dbContext.Set<Type>()
                 .AsNoTracking()
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
+
+            return type.ToModel();
         }
 
         public async Task<bool> IsTypeNameExistsAsync(string name)
@@ -39,45 +47,56 @@ namespace NetDDDPokemonApi.Infrastructure.Services
             return await dbContext.Types.AnyAsync(x => x.Name == name);
         }
 
-        public async Task<Type> AddTypeAsync(Type type)
+        public async Task<TypeModel?> AddTypeAsync(TypeModel? type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
-            if (!string.IsNullOrWhiteSpace(type.Name) && !await IsTypeNameExistsAsync(type.Name))
+            var typeDb = type.ToType();
+            if (typeDb == null) return null;
+
+            if (!string.IsNullOrWhiteSpace(typeDb.Name) && !await IsTypeNameExistsAsync(typeDb.Name))
             {
-                dbContext.Types.Add(type);
+                dbContext.Types.Add(typeDb);
 
                 await dbContext.SaveChangesAsync();
+
+                return typeDb.ToModel() ?? type;
             }
 
-            return type;
+            return null;
+            
         }
 
-        public async Task<Type> UpdateTypeAsync(Type type)
+        public async Task<TypeModel?> UpdateTypeAsync(TypeModel? type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
-            if (!string.IsNullOrWhiteSpace(type.Name) && !await IsTypeNameExistsAsync(type.Name))
+            var typeDb = type.ToType();
+            if (typeDb == null) return null;
+
+            if (!string.IsNullOrWhiteSpace(typeDb.Name) && !await IsTypeNameExistsAsync(typeDb.Name))
             {
-                dbContext.Types.Attach(type);
-                dbContext.Types.Update(type);
+                dbContext.Types.Attach(typeDb);
+                dbContext.Types.Update(typeDb);
 
                 await dbContext.SaveChangesAsync();
+
+                return typeDb.ToModel() ?? type;
             }
 
-            return type;
+            return null;
         }
 
-        public async Task DeleteTypeAsync(Type type)
+        public async Task DeleteTypeAsync(TypeModel? type)
         {
-            if (type == null) throw new ArgumentNullException(nameof(type));
+            var typeDb = type.ToType();
+            if (typeDb == null) return;
 
-            dbContext.Types.Remove(type);
+            dbContext.Types.Attach(typeDb);
+            dbContext.Types.Remove(typeDb);
 
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task TruncateTable()
+        public async Task TruncateTableAsync()
         {
-            await TruncateTable(TYPES);
+            await TruncateTableAsync(TYPES);
         }
 
     }

@@ -1,12 +1,15 @@
-﻿using NetDDDPokemonApi.Infrastructure.Entity.Models;
+﻿using NetDDDPokemonApi.Domain.models;
+using NetDDDPokemonApi.Infrastructure.Entity.Models;
 
 namespace NetDDDPokemonApi.Infrastructure.Interfaces
 {
     public interface IPokemonDbService
     {
-        Task<List<Pokemon>> GetPokemonsAsync();
-        Task<Pokemon?> GetPokemonByIdAsync(long id);
-        Task<Pokemon> UpdatePokemonAsync(Pokemon pokemon);
-        Task DeletePokemonAsync(Pokemon pokemon);
+        Task<List<PokemonModel>> GetPokemonsAsync();
+        Task<PokemonModel?> GetPokemonByIdAsync(long id);
+        Task<PokemonModel?> AddPokemon(PokemonModel? pokemon);
+        Task<PokemonModel?> UpdatePokemonAsync(PokemonModel? pokemon);
+        Task DeletePokemonAsync(PokemonModel? pokemon);
+        Task TruncateTableAsync();
     }
 }

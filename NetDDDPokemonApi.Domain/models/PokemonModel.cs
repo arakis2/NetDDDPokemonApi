@@ -2,11 +2,8 @@
 
 namespace NetDDDPokemonApi.Domain.models
 {
-    public class PokemonModel
+    public class PokemonModel : ModelBase
     {
-        [JsonProperty("id")]
-        public long? Id {  get; set; }
-
         [JsonProperty("name")]
         public string? Name { get; set; }
 
@@ -21,11 +18,5 @@ namespace NetDDDPokemonApi.Domain.models
 
         [JsonProperty("types")]
         public List<string>? Types { get; set; }
-
-        [JsonProperty("created")]
-        public DateTime Created { get; set; } = DateTime.Now;
-
-        [JsonProperty("updated")]
-        public DateTime? Updated { get; set; }
     }
 }
