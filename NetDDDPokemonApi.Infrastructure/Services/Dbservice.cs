@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetDDDPokemonApi.Infrastructure.Entity;
+using System.Text.Unicode;
 
 namespace NetDDDPokemonApi.Infrastructure.Services
 {
@@ -14,7 +15,7 @@ namespace NetDDDPokemonApi.Infrastructure.Services
 
         public async Task TruncateTableAsync(string nomTable)
         {
-            await dbContext.Database.ExecuteSqlAsync($"TRUNCATE TABLE {nomTable}");
+            await dbContext.Database.ExecuteSqlRawAsync($"TRUNCATE TABLE \"{nomTable}\" RESTART IDENTITY CASCADE;");
         }
     }
 }

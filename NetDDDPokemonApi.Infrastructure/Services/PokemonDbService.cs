@@ -4,6 +4,9 @@ using NetDDDPokemonApi.Infrastructure.Converters;
 using NetDDDPokemonApi.Infrastructure.Entity;
 using NetDDDPokemonApi.Infrastructure.Entity.Models;
 using NetDDDPokemonApi.Infrastructure.Interfaces;
+using System.Linq;
+using System.Text;
+using Type = NetDDDPokemonApi.Infrastructure.Entity.Models.Type;
 
 namespace NetDDDPokemonApi.Infrastructure.Services
 {
@@ -37,11 +40,13 @@ namespace NetDDDPokemonApi.Infrastructure.Services
             return pokemon.ToModel();
         }
 
-        public async Task<PokemonModel?> AddPokemon(PokemonModel? pokemon)
+        public async Task<PokemonModel?> AddPokemonAsync(PokemonModel? pokemon)
         {
-            var pokemonDb = await ConvertToPokemon(pokemon);
+            var pokemonDb = ConvertToPokemon(pokemon);
 
             if (pokemonDb == null) return null;
+
+          await GetDbTypes(pokemonDb, pokemon?.Types);
 
             dbContext.Pokemons.Add(pokemonDb);
 
@@ -52,7 +57,7 @@ namespace NetDDDPokemonApi.Infrastructure.Services
 
         public async Task<PokemonModel?> UpdatePokemonAsync(PokemonModel? pokemon)
         {
-            var pokemonDb = await ConvertToPokemon(pokemon);
+            var pokemonDb = ConvertToPokemon(pokemon);
 
             if (pokemonDb == null) return null;
 
@@ -66,7 +71,7 @@ namespace NetDDDPokemonApi.Infrastructure.Services
 
         public async Task DeletePokemonAsync(PokemonModel? pokemon)
         {
-            var pokemonDb = await ConvertToPokemon(pokemon);
+            var pokemonDb = ConvertToPokemon(pokemon);
 
             if (pokemonDb == null) return;
 
@@ -80,23 +85,31 @@ namespace NetDDDPokemonApi.Infrastructure.Services
             await TruncateTableAsync(POKEMONS);
         }
 
-        private async Task<Pokemon?> ConvertToPokemon(PokemonModel? pokemon)
+        private Pokemon? ConvertToPokemon(PokemonModel? pokemon)
         {
-            if (pokemon == null || pokemon.Types == null || pokemon.Types.Count == 0) return null;
+            if (pokemon == null) return null;
 
-            var types = new List<TypeModel>();
-
-            foreach (var strType in pokemon.Types)
-            {
-                var type = await typeDbService.GetTypeByNameAsync(strType);
-                if (type != null) types.Add(type);
-            }
-
-            if (types.Count == 0) return null;
-
-            var pokemonDb = pokemon.ToPokemon(types);
+            var pokemonDb = pokemon.ToPokemon();       
 
             return pokemonDb;
+        }
+
+        private async Task GetDbTypes(Pokemon pokemon, List<string>? types)
+        {
+            if (types == null ||!types.Any()) return;
+            if(types.Contains("Fée"))
+            {
+                var test = types;
+            }
+            foreach (var type in types) 
+            {
+                if(!await typeDbService.IsTypeNameExistsAsync(type)) continue;
+                Type? dbType = await dbContext.Types.FirstOrDefaultAsync(t => t.Name != null && t.Name.Equals(type));
+                if (dbType == null) continue;
+                dbType.Pokemons = dbType.Pokemons.Add(pokemon);
+                pokemon.Types = pokemon.Types.Add(dbType);
+
+            }
         }
     }
 }

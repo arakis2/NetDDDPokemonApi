@@ -8,6 +8,6 @@ namespace NetDDDPokemonApi.Infrastructure.Entity.Models
     {
         public string? Name { get; set; }
 
-        public IEnumerable<Pokemon> Pokemons { get; set; } = Enumerable.Empty<Pokemon>();
+        public IEnumerable<Pokemon> Pokemons { get; set; } = new List<Pokemon>();
     }
 }

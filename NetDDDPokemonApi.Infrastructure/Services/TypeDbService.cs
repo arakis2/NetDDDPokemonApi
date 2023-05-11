@@ -44,7 +44,7 @@ namespace NetDDDPokemonApi.Infrastructure.Services
 
         public async Task<bool> IsTypeNameExistsAsync(string name)
         {
-            return await dbContext.Types.AnyAsync(x => x.Name == name);
+            return await dbContext.Types.AnyAsync(x => x.Name.Equals(name));
         }
 
         public async Task<TypeModel?> AddTypeAsync(TypeModel? type)

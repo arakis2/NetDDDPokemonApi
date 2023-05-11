@@ -1,4 +1,5 @@
 ﻿using NetDDDPokemonApi.Domain.models;
+using NetDDDPokemonApi.Infrastructure.Entity.Models;
 using Type = NetDDDPokemonApi.Infrastructure.Entity.Models.Type;
 
 namespace NetDDDPokemonApi.Infrastructure.Converters
@@ -63,7 +64,7 @@ namespace NetDDDPokemonApi.Infrastructure.Converters
                 Created = type.Created,
                 Id = type.Id,
                 Updated = type.Updated,
-                Name = type.Name,
+                Name = type.Name
             };
         }
 

@@ -21,10 +21,15 @@ namespace NetDDDPokemonApi.Services
             foreach (var model in models)
             {
                 var type = await typeDbService.AddTypeAsync(model);
-                if(type != null) types.Add(type);
+                if(type != null)  types.Add(type);
             }
 
             return types;
+        }
+
+        public async Task TruncateTable()
+        {
+            await typeDbService.TruncateTableAsync();
         }
     }
 }

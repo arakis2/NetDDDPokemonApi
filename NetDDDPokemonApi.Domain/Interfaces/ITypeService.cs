@@ -11,5 +11,6 @@ namespace NetDDDPokemonApi.Domain.Interfaces
     {
         Task<List<TypeModel>> GetTypesAsync();
         Task<List<TypeModel>> AddTypesAsync(List<TypeModel> models);
+        Task TruncateTable();
     }
 }

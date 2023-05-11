@@ -22,11 +22,10 @@ namespace NetDDDPokemonApi.Infrastructure.Converters
             };
         }
 
-        public static Pokemon? ToPokemon(this PokemonModel? model, List<TypeModel> types)
+        public static Pokemon? ToPokemon(this PokemonModel? model)
         {
             if (model == null) return null;
 
-            types = types ?? throw new ArgumentNullException(nameof(types));
 
             return new Pokemon
             {
@@ -35,8 +34,7 @@ namespace NetDDDPokemonApi.Infrastructure.Converters
                 Hp = model.Hp,
                 Id = model.Id,
                 Name = model.Name,
-                Picture= model.Picture,
-                Types = types.ToTypes(),
+                Picture = model.Picture,
                 Updated = model.Updated
             };
         }
@@ -61,11 +59,23 @@ namespace NetDDDPokemonApi.Infrastructure.Converters
 
             foreach (var row in dict)
             {
-                var pokemon = row.Key.ToPokemon(row.Value);
+                var pokemon = row.Key.ToPokemon();
                if(pokemon != null) pokemons.Add(pokemon);
             }
 
             return pokemons;
+        }
+
+        public static IEnumerable<T> Add<T>(this IEnumerable<T> values, T item)
+        {
+            if (item == null) return values;
+
+            List<T> list = values.ToList();
+
+            list.Add(item);
+
+            return list;
+
         }
     }
 }

@@ -7,7 +7,7 @@ namespace NetDDDPokemonApi.Infrastructure.Interfaces
     {
         Task<List<PokemonModel>> GetPokemonsAsync();
         Task<PokemonModel?> GetPokemonByIdAsync(long id);
-        Task<PokemonModel?> AddPokemon(PokemonModel? pokemon);
+        Task<PokemonModel?> AddPokemonAsync(PokemonModel? pokemon);
         Task<PokemonModel?> UpdatePokemonAsync(PokemonModel? pokemon);
         Task DeletePokemonAsync(PokemonModel? pokemon);
         Task TruncateTableAsync();

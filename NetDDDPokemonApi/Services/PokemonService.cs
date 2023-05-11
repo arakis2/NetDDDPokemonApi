@@ -15,5 +15,27 @@ namespace NetDDDPokemonApi.Services
 
         public async Task<List<PokemonModel>> GetPokemonListAsync() => await pokemonDbService.GetPokemonsAsync();
 
+        public async Task TruncateTable()
+        {
+            await pokemonDbService.TruncateTableAsync();
+        }
+
+        public async Task<List<PokemonModel>> AddPokemonsAsync(List<PokemonModel> models)
+        {
+            var results = new List<PokemonModel>();
+
+            foreach (var model in models)
+            {
+                var pokemon = await pokemonDbService.AddPokemonAsync(model);
+
+                if(pokemon != null)
+                {
+                    results.Add(pokemon);
+                }
+            }
+
+            return results;
+        }
+
     }
 }
